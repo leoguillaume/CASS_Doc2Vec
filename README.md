@@ -24,13 +24,13 @@ Télécharge, décompresse et récupère les fichiers XML des décisions à part
 Scrappe les fichiers XML des décisions de justice et les importe dans une base SQL.
 
 >**data_path** : filepath du dossier où se trouve les décisions<br>
->**tags** : tags XML que vous souhaitez récupérer (les textes se trouve dans 'CONTENU' et les labels dans 'SCT')<br>
+>**tags** : tags XML que vous souhaitez récupérer (les textes se trouve dans *CONTENU* et les labels dans *SCT*)<br>
 >**BASE** : nom de la base<br>
 >**sql_base**: filepath de la base SQL dans laquelle vous souhaiter enregistrer le résultat du scrapping<br>
 
 ### **cleaner.py**
 
-Supprime les décisions dont les tags SCT ou CONTENU sont nuls. Les labels sont sous la forme: "ACCIDENT DE LA CIRCULATION - Indemnisation -  Victime -  Préjudice corporel". Ce script créer une colonne 'label' avec uniquement le premier label et stocke les données sous la forme d'un DataFrame Pandas, enregistré dans un fichier pickle.
+Supprime les décisions dont les tags SCT ou CONTENU sont nuls. Les labels sont sous la forme: "ACCIDENT DE LA CIRCULATION - Indemnisation -  Victime -  Préjudice corporel". Ce script créer une colonne *label* avec uniquement le premier label et stocke les données sous la forme d'un DataFrame Pandas, lui même enregistré dans un fichier pickle.
 
 **`sql_to_pickle(sql_base:str, path_out:str, BASE:str)`**<br>
 >**sql_base**: filepath de la base SQL contienant les décisions scrapée<br>
@@ -52,7 +52,7 @@ Créer une [pipeline SpaCy](https://spacy.io/usage/processing-pipelines) qui pro
 >**BASE** : nom de la base<br>
 
 ### **preprocessor.py**<br>
-Normalise les textes en supprimant les 1% des textes les plus courts et les plus longs ainsi que les textes ayant les labels dont la fréquence est inférieure à 'mini_size_label'.
+Normalise les textes en supprimant les 1 % des textes les plus courts et les plus longs ainsi que les textes ayant un label dont la fréquence est inférieure à *mini_size_label*.
 
 **`preparation(path_in:str, path_out:str, BASE:str, mini_size_label:int)`**<br>
 >**path_in** : filepath du fichier pickle contenant les décisions nettoyées<br>
@@ -63,10 +63,10 @@ Normalise les textes en supprimant les 1% des textes les plus courts et les plus
 
 Le modèle utilisé est un [Doc2Vec](https://radimrehurek.com/gensim/models/doc2vec.html). Ce modèle apprend des embeddings pour chacun des mots du corpus ainsi que pour chacun des documents. Une fois les embeddings appris (de taille 256), j'utilisé un modèle très basique, une [regression logistique](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html?highlight=logistic%20regression#sklearn.linear_model.LogisticRegression) pour classer les textes à leur label respectif.
 
-Le script du modèle et de son entrainement: [`d2v_classifier.py`](https://github.com/leoguillaume/CASS_Doc2Vec/blob/master/src/d2v_classifier.py)
+Le script du modèle et de son entrainement : [`d2v_classifier.py`](https://github.com/leoguillaume/CASS_Doc2Vec/blob/master/src/d2v_classifier.py)
 
 # Résultats
 
-Sur le jeu d'entrainement, après 5 époques, le modèle parvient à un F1-score (pondéré) de 0.58 et 0.37 sur le jeu de test. Ces résultats relativement faibles sont principalement dus au très grand nombre de label différents (579) et à leur distribution:<br>
+Sur le jeu d'entrainement, après 5 époques, le modèle parvient à un F1-score (pondéré) de 0.58 et 0.37 sur le jeu de test. Ces résultats relativement faibles sont principalement dus au très grand nombre de label différents (579) et à leur distribution :<br>
 
 ![](https://github.com/leoguillaume/CASS_Doc2Vec/blob/master/charts/label_distribution.png)
