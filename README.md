@@ -11,10 +11,10 @@ La base de données est disponible sur [ici](https://www.data.gouv.fr/fr/dataset
 
 Ces scripts ont été construits pour être exécutés de manière successive.
 
-* **data_retrivial.py**<br>
+### **data_retrivial.py**<br>
 Récupère et scrape les décisions de la base.
 
-**`data_colector(BASE:str, data_path:str)`**<br>
+**`data_colector(BASE:str, data_path:str)**<br>
 Télécharge, décompresse et récupère les fichiers XML des décisions à partir du [protocole ftp](ftp://echanges.dila.gouv.fr/CASS/).
 
 >**BASE** : nom de base à télécharger parmi la liste suivante ['INCA', 'CASS', 'CAPP', 'JADE']<br>
@@ -28,16 +28,16 @@ Scrappe les fichiers XML des décisions de justice et les importe dans une base 
 >**BASE** : nom de la base<br>
 >**sql_base**: filepath de la base SQL dans laquelle vous souhaiter enregistrer le résultat du scrapping<br>
 
-* **cleaner.py**
+### **cleaner.py**
 
 Supprime les décisions dont les tags SCT ou CONTENU sont nuls. Les labels sont sous la forme: "ACCIDENT DE LA CIRCULATION - Indemnisation -  Victime -  Préjudice corporel". Ce script créer une colonne 'label' avec uniquement le premier label et stocke les données sous la forme d'un DataFrame Pandas, enregistré dans un fichier pickle.
 
 **`sql_to_pickle(sql_base:str, path_out:str, BASE:str)`**<br>
 >**sql_base**: filepath de la base SQL contienant les décisions scrapée<br>
 >**path_out** : filepath du dossier d'accueil du fichier pickle de sortie<br>
->**BASE** : nom de la base
+>**BASE** : nom de la base<br>
 
-* **tokenizer.py**
+### **tokenizer.py**
 
 Créer une [pipeline Spacy](https://spacy.io/usage/processing-pipelines) qui procède au prépocessing du contenu des décisions de justice. Le preprocessing consiste dans les étapes suivantes:<br>
 - tokenization
@@ -51,14 +51,13 @@ Créer une [pipeline Spacy](https://spacy.io/usage/processing-pipelines) qui pro
 >**data_out** : filepath du dossier d'accueil du fichier pickle de sortie<br>
 >**BASE** : nom de la base<br>
 
-* **preprocessor.py**<br>
+### **preprocessor.py**<br>
 Normalise les textes en supprimant les 1% des textes les plus courts et les plus longs ainsi que les textes ayant les labels dont la fréquence est inférieure à 'mini_size_label'.
 
-**`preparation(path_in:str, path_out:str, BASE:str, mini_size_label:int)`**
-<br> **path_in** : filepath du fichier pickle contenant les décisions nettoyées<br>
-**data_out** : filepath du dossier d'accueil du fichier pickle de sortie<br>
-**BASE** : nom de la base<br>
-**mini_size_label** : fréquence minimal d'un label<br>
+**`preparation(path_in:str, path_out:str, BASE:str, mini_size_label:int)`**<br>
+>**path_in** : filepath du fichier pickle contenant les décisions nettoyées<br>
+>**data_out** : filepath du dossier d'accueil du fichier pickle de sortie<br>
+>**mini_size_label** : fréquence minimal d'un label<br>
 
 # Le model
 
@@ -69,4 +68,4 @@ Le script du modèle et de son entrainement: [`d2v_classifier.py`](https://githu
 # Résultats
 
 Sur le jeu d'entrainement, après 5 époques, le modèle parvient à un F1-score (pondéré) de 0.58 et 0.37 sur le jeu de test. Ces résultats relativement faibles sont principalement dus au très grand nombre de label différents (579) et à leur distribution:
-![](https://github.com/leoguillaume/CASS_Doc2Vec/blob/charts/label_distribution.png)
+![](https://github.com/leoguillaume/CASS_Doc2Vec/blob/master/charts/label_distribution.png)
