@@ -1,7 +1,7 @@
 # CASS_Doc2Vec
 Classification des décisions de justice de la base DILA CASS
 
-**Ce projet fournit des scripts python pour récupérer et scrapper les décisions de justice des bases DILA suivante: INCA, CASS, CAPP et JADE.**
+**Ce projet fournit des scripts python pour récupérer et scrapper les décisions de justice des bases DILA suivantes : INCA, CASS, CAPP et JADE.**
 
 Projet consistant à entrainer un classifieur de décision de justice entrainé sur la base de donnée CAPP fournie par la Direction de l'Information Légale et Administratives (DILA).
 
@@ -14,7 +14,7 @@ Ces scripts ont été construits pour être exécutés de manière successive.
 ### **data_retrivial.py**<br>
 Récupère et scrape les décisions de la base.
 
-**`data_colector(BASE:str, data_path:str)**<br>
+**`data_colector(BASE:str, data_path:str)`**<br>
 Télécharge, décompresse et récupère les fichiers XML des décisions à partir du [protocole ftp](ftp://echanges.dila.gouv.fr/CASS/).
 
 >**BASE** : nom de base à télécharger parmi la liste suivante ['INCA', 'CASS', 'CAPP', 'JADE']<br>
@@ -39,7 +39,7 @@ Supprime les décisions dont les tags SCT ou CONTENU sont nuls. Les labels sont 
 
 ### **tokenizer.py**
 
-Créer une [pipeline Spacy](https://spacy.io/usage/processing-pipelines) qui procède au prépocessing du contenu des décisions de justice. Le preprocessing consiste dans les étapes suivantes:<br>
+Créer une [pipeline SpaCy](https://spacy.io/usage/processing-pipelines) qui procède au prépocessing du contenu des décisions de justice. Le preprocessing consiste dans les étapes suivantes:<br>
 - tokenization
 - supprime les stop words, la ponctuation, les caractères non alphabétiques et les tokens composés d'un seul caractère
 - lemmatize
@@ -67,5 +67,6 @@ Le script du modèle et de son entrainement: [`d2v_classifier.py`](https://githu
 
 # Résultats
 
-Sur le jeu d'entrainement, après 5 époques, le modèle parvient à un F1-score (pondéré) de 0.58 et 0.37 sur le jeu de test. Ces résultats relativement faibles sont principalement dus au très grand nombre de label différents (579) et à leur distribution:
+Sur le jeu d'entrainement, après 5 époques, le modèle parvient à un F1-score (pondéré) de 0.58 et 0.37 sur le jeu de test. Ces résultats relativement faibles sont principalement dus au très grand nombre de label différents (579) et à leur distribution:<br>
+
 ![](https://github.com/leoguillaume/CASS_Doc2Vec/blob/master/charts/label_distribution.png)
