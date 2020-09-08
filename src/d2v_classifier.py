@@ -46,7 +46,22 @@ score_train.append(f1_score(y_train, y_train_pred, average = 'weighted'))
 score_test.append(f1_score(y_test, y_test_pred, average = 'weighted'))
 epochs.append(d2v.epochs)
 
-## retrain Doc2Vec
+df = pd.read_pickle('CASS_prepared.pkl')
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.1, random_state = seed)
+X = df[['ID', 'token']]
+y = df.label
+
+seed = 42
+
+tagged_docs = [TaggedDocument(row.token, [row.ID]) for index, row in X_train.iterrows()]
+
+params = {'documents': tagged_docs,
+          'vector_size': 256,
+          'seed': seed,
+          'dbow_words': 1,
+          'min_count': 3}
+          
+## Retrain Doc2Vec
 
 for epoch in range(7):
     d2v.fit()
