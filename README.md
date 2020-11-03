@@ -1,11 +1,11 @@
-# CASS_Doc2Vec
+# Cass2Vec
 Classification des décisions de justice de la base DILA CASS
 
 **Ce projet fournit des scripts python pour récupérer et scrapper les décisions de justice des bases DILA suivantes : INCA, CASS, CAPP et JADE.**
 
 Projet consistant à entrainer un classifieur de décision de justice entrainé sur la base de donnée CAPP fournie par la Direction de l'Information Légale et Administratives (DILA).
 
-La base de données est disponible sur [ici](https://www.data.gouv.fr/fr/datasets/CASS/#_). Il s'agit d'un fonds documentaire de jurisprudence des grands arrêts de la jurisprudence judiciaire et les arrêts de la Cour de cassation. Après traitement des données, la base de donnée exploiter dans le cadre de ce projet est composée de 97678 arrêts.
+La base de données est disponible sur [ici](https://www.data.gouv.fr/fr/datasets/CASS/#_). Il s'agit d'un fonds documentaire de jurisprudence des grands arrêts de la jurisprudence judiciaire et des arrêts de la Cour de cassation. Après traitement des données, la base de donnée exploitée dans le cadre de ce projet est composée de 97678 arrêts.
 
 # Scripts Python
 

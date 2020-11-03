@@ -10,6 +10,15 @@ import sqlalchemy as db
 bases_dila = ['INCA', 'CASS', 'CAPP', 'JADE']
 
 def data_colector(BASE:str, data_path:str):
+    """
+    Télécharge, décompresse et récupère les fichiers XML des décisions à partir du protocole ftp de la base.
+    Parameters
+    __________
+    BASE: str
+        Nom de base à télécharger parmi la liste suivante ['INCA', 'CASS', 'CAPP', 'JADE']
+    data_path: str
+        Filepath du dossier d'accueil local
+    """
     assert BASE in bases_dila
 
     BASE_URL = "https://echanges.dila.gouv.fr/OPENDATA/" + BASE + '/'
@@ -92,7 +101,19 @@ def cleaning(data):
     return data
 
 def data_scrapper(data_path: str, tags:list, BASE: str, sql_base: str):
-
+    """
+    Scrappe les fichiers XML des décisions de justice et les importe dans une base SQL.
+    Parameters
+    __________
+    data_path: str
+        Filepath du dossier local où se trouve les décisions
+    tags: list
+        Tags XML que vous souhaitez récupérer (les textes se trouve dans *CONTENU* et les labels dans *SCT*)
+    BASE: str
+        Nom de la base
+    Sql_base: str
+        Filepath de la base SQL dans laquelle vous souhaitez enregistrer le résultat du scrapping
+     """
     DATABASE_URL = 'sqlite:///' + sql_base
     engine = db.create_engine(DATABASE_URL, echo = False)
     connection = engine.connect()
